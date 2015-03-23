@@ -46,7 +46,7 @@ describe 'datadog_agent' do
         describe 'paramter check' do
             context 'with defaults' do
                 context 'for proxy' do
-                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with_content(
                     'content' => /dd_url: https:\/\/app.datadoghq.com\n/,
                     'content' => /# proxy_host:\n/,
                     'content' => /# proxy_port:\n/,
@@ -58,16 +58,38 @@ describe 'datadog_agent' do
                 context 'for general' do
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /api_key: 'your_API_key'\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /# hostname:\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /use_mount: false\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /non_local_traffic: false\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# collect_ec2_tags: no\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# collect_instance_metadata: yes\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# recent_point_threshold: 30\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# listen_port: 17123\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# graphite_listen_port: 17123\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# additional_checksd: \/etc\/dd-agent\/checks.d\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# use_curl_http_client: False\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# device_blacklist_re: .*\\\/dev\\\/mapper\\\/lxc-box.*\n/,
                     )}
                 end
@@ -75,8 +97,14 @@ describe 'datadog_agent' do
                 context 'for pup' do
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# use_pup: no\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# pup_port: 17125\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# pup_interface: localhost\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# pup_url: http:\/\/localhost:17125\n/,
                     )}
                 end
@@ -84,12 +112,26 @@ describe 'datadog_agent' do
                 context 'for dogstatsd' do
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# bind_host: localhost\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^use_dogstatsd: no\n/,
-                    'content' => /^dogstatsd_port: 8125\n/,
-                    'content' => /^# dogstatsd_target: http:\/\/localhost:17123\n/,
-                    'content' => /^# dogstatsd_interval: 10\n/,
-                    'content' => /^# dogstatsd_normalize: yes\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
+                    'content' => /^dogstatsd_port : 8125\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
+                    'content' => /^# dogstatsd_target : http:\/\/localhost:17123\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
+                    'content' => /^# dogstatsd_interval : 10\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
+                    'content' => /^# dogstatsd_normalize : yes\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# statsd_forward_host: address_of_own_statsd_server\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# statsd_forward_port: 8125\n/,
                     )}
                 end
@@ -97,6 +139,8 @@ describe 'datadog_agent' do
                 context 'for ganglia' do
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^#ganglia_host: localhost\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^#ganglia_port: 8651\n/,
                     )}
                 end
@@ -104,12 +148,26 @@ describe 'datadog_agent' do
                 context 'for logging' do
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /log_level: INFO\n/,
-                    'content' => /log_to_syslog: False\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
+                    'content' => /log_to_syslog: yes\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# collector_log_file: \/var\/log\/datadog\/collector.log\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# forwarder_log_file: \/var\/log\/datadog\/forwarder.log\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# dogstatsd_log_file: \/var\/log\/datadog\/dogstatsd.log\n/,
-                    'content' => /^# pup_log_file: \/var\/log\/datadog\/pup.log\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
+                    'content' => /^# pup_log_file:        \/var\/log\/datadog\/pup.log\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# syslog_host:\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# syslog_port:\n/,
                 )}
                 end
