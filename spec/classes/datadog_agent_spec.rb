@@ -45,19 +45,74 @@ describe 'datadog_agent' do
 
         describe 'paramter check' do
             context 'with defaults' do
-                it { should contain_file('/etc/dd-agent/datadog.conf').with(
+                context 'for proxy' do
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /dd_url: https:\/\/app.datadoghq.com\n/,
                     'content' => /# proxy_host:\n/,
                     'content' => /# proxy_port:\n/,
                     'content' => /# proxy_user:\n/,
                     'content' => /# proxy_password:\n/,
+                )}
+                end
+
+                context 'for general' do
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /api_key: 'your_API_key'\n/,
                     'content' => /# hostname:\n/,
                     'content' => /use_mount: false\n/,
                     'content' => /non_local_traffic: false\n/,
+                    'content' => /^# collect_ec2_tags: no\n/,
+                    'content' => /^# collect_instance_metadata: yes\n/,
+                    'content' => /^# recent_point_threshold: 30\n/,
+                    'content' => /^# listen_port: 17123\n/,
+                    'content' => /^# graphite_listen_port: 17123\n/,
+                    'content' => /^# additional_checksd: \/etc\/dd-agent\/checks.d\n/,
+                    'content' => /^# use_curl_http_client: False\n/,
+                    'content' => /^# device_blacklist_re: .*\\\/dev\\\/mapper\\\/lxc-box.*\n/,
+                    )}
+                end
+
+                context 'for pup' do
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
+                    'content' => /^# use_pup: no\n/,
+                    'content' => /^# pup_port: 17125\n/,
+                    'content' => /^# pup_interface: localhost\n/,
+                    'content' => /^# pup_url: http:\/\/localhost:17125\n/,
+                    )}
+                end
+
+                context 'for dogstatsd' do
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
+                    'content' => /^# bind_host: localhost\n/,
+                    'content' => /^use_dogstatsd: no\n/,
+                    'content' => /^dogstatsd_port: 8125\n/,
+                    'content' => /^# dogstatsd_target: http:\/\/localhost:17123\n/,
+                    'content' => /^# dogstatsd_interval: 10\n/,
+                    'content' => /^# dogstatsd_normalize: yes\n/,
+                    'content' => /^# statsd_forward_host: address_of_own_statsd_server\n/,
+                    'content' => /^# statsd_forward_port: 8125\n/,
+                    )}
+                end
+
+                context 'for ganglia' do
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
+                    'content' => /^#ganglia_host: localhost\n/,
+                    'content' => /^#ganglia_port: 8651\n/,
+                    )}
+                end
+
+                context 'for logging' do
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /log_level: INFO\n/,
-                    'content' => /log_to_syslog: yes\n/,
+                    'content' => /log_to_syslog: False\n/,
+                    'content' => /^# collector_log_file: \/var\/log\/datadog\/collector.log\n/,
+                    'content' => /^# forwarder_log_file: \/var\/log\/datadog\/forwarder.log\n/,
+                    'content' => /^# dogstatsd_log_file: \/var\/log\/datadog\/dogstatsd.log\n/,
+                    'content' => /^# pup_log_file: \/var\/log\/datadog\/pup.log\n/,
+                    'content' => /^# syslog_host:\n/,
+                    'content' => /^# syslog_port:\n/,
                 )}
+                end
             end
 
             context 'with a custom dd_url' do
