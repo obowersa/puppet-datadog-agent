@@ -46,13 +46,21 @@ describe 'datadog_agent' do
         describe 'paramter check' do
             context 'with defaults' do
                 context 'for proxy' do
-                    it { should contain_file('/etc/dd-agent/datadog.conf').with_content(
-                    'content' => /dd_url: https:\/\/app.datadoghq.com\n/,
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
+                    'content' => /^dd_url: https:\/\/app.datadoghq.com\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /# proxy_host:\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /# proxy_port:\n/,
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /# proxy_user:\n/,
-                    'content' => /# proxy_password:\n/,
-                )}
+                    )}
+                    it { should contain_file('/etc/dd-agent/datadog.conf').with(
+                    'content' => /proxy_password:\n/,
+                    )}
                 end
 
                 context 'for general' do
@@ -75,16 +83,16 @@ describe 'datadog_agent' do
                     'content' => /^# collect_instance_metadata: yes\n/,
                     )}
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
-                    'content' => /^# recent_point_threshold: 30\n/,
+                    'content' => /recent_point_threshold: 30\n/,
                     )}
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# listen_port: 17123\n/,
                     )}
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
-                    'content' => /^# graphite_listen_port: 17123\n/,
+                    'content' => /^# graphite_listen_port: 17124\n/,
                     )}
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
-                    'content' => /^# additional_checksd: \/etc\/dd-agent\/checks.d\n/,
+                    'content' => /^# additional_checksd: \/etc\/dd-agent\/checks.d\/\n/,
                     )}
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# use_curl_http_client: False\n/,
@@ -114,7 +122,7 @@ describe 'datadog_agent' do
                     'content' => /^# bind_host: localhost\n/,
                     )}
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
-                    'content' => /^use_dogstatsd: no\n/,
+                    'content' => /^# use_dogstatsd: yes\n/,
                     )}
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# dogstatsd_port : 8125\n/,
