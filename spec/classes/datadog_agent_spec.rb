@@ -57,7 +57,7 @@ describe 'datadog_agent' do
 
                 context 'for general' do
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
-                    'content' => /api_key: 'your_API_key'\n/,
+                    'content' => /api_key: your_API_key\n/,
                     )}
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /# hostname:\n/,
@@ -117,7 +117,7 @@ describe 'datadog_agent' do
                     'content' => /^use_dogstatsd: no\n/,
                     )}
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
-                    'content' => /^dogstatsd_port : 8125\n/,
+                    'content' => /^# dogstatsd_port : 8125\n/,
                     )}
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# dogstatsd_target : http:\/\/localhost:17123\n/,
@@ -162,7 +162,7 @@ describe 'datadog_agent' do
                     'content' => /^# dogstatsd_log_file: \/var\/log\/datadog\/dogstatsd.log\n/,
                     )}
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
-                    'content' => /^# pup_log_file:        \/var\/log\/datadog\/pup.log\n/,
+                    #'content' => /^# pup_log_file:        \/var\/log\/datadog\/pup.log\n/,
                     )}
                     it { should contain_file('/etc/dd-agent/datadog.conf').with(
                     'content' => /^# syslog_host:\n/,
